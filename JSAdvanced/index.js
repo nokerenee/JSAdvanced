@@ -458,21 +458,50 @@ function randomDelay() {
 // run 'npm install node - fetch'
 // add this line to package.json after line 5: "type": "module",
 
-import fetch from "node - fetch"
-globalThis.fetch = fetch
+// import fetch from "node-fetch";
+// globalThis.fetch = fetch;
 
-function fetchURLData(url) {
-  let fetchPromise = fetch(url).then((response) => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error(`Request failed with status ${response.status} `);
+// function fetchURLData(url) {
+//   let fetchPromise = fetch(url).then((response) => {
+//     if (response.status === 200) {
+//       return response.json();
+//     } else {
+//       throw new Error(`Request failed with status ${response.status} `);
+//     }
+//   });
+
+//   return fetchPromise;
+// }
+
+// fetchURLData("https://jsonplaceholder.typicode.com/todos/1")
+//   .then((data) => console.log(data))
+//   .catch((error) => console.error(error.message));
+
+// a)
+import fetch from "node-fetch";
+globalThis.fetch = fetch;
+
+async function fetchURLData(url) {
+    try {
+        const response = await fetch(url);
+        if (response.status === 200) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Request failed with status ${response.status}`);
+        }
+    } catch (error) {
+        throw new Error(`Failed to fetch data: ${error.message}`);
     }
-  });
-
-  return fetchPromise;
 }
 
-fetchURLData("https://jsonplaceholder.typicode.com/todos/1")
-  .then((data) => console.log(data))
-  .catch((error) => console.error(error.message));
+async function main() {
+    try {
+        const data = await fetchURLData("https://jsonplaceholder.typicode.com/todos/1");
+        console.log(data);
+    } catch(error) {
+        console.error(error.message);
+    }
+}
+
+main();
