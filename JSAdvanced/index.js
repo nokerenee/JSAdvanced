@@ -181,7 +181,7 @@ printNext();
 
 printFibonacciTimeouts(10); // This will print the first 10 Fibonacci numbers 
 */
-/*
+
 // Question 5:
 let car = {
   make: "Porsche",
@@ -211,6 +211,7 @@ clonedCar.description(); // Updated: This car is a Porsche 911 from 2022
 
 // a)
 setTimeout(() => {car.description();}, 200); // Doesn't work with updated year: This car is a Porsche 911 from 1964
+
 // c)
 //The delayed 'description()' call will use the original values from part a), not the new values from part b). This is because the 'description()' method is part of the original 'car' object.
 //The 'description()' method is still referencing the 'car' object's properties when called and it doesn't automatically update to reflect changes in the clone.
@@ -220,7 +221,7 @@ setTimeout(() => {car.description();}, 200); // Doesn't work with updated year: 
 const boundDescription = car.description.bind(clonedCar);
 setTimeout(boundDescription, 400); // Now this will work with the updated year
 
-
+/*
 // Question 6:
 // a)
 Function.prototype.delay = function (ms) {
@@ -507,7 +508,7 @@ async function main() {
 }
 
 main();
- */
+ 
 // c)
 import fetch from "node-fetch";
 globalThis.fetch = fetch;
@@ -555,3 +556,4 @@ async function main() {
 main(); // Call the async main function to start the operation
 console.log("update something branchs");
 console.log("update something branchs add some changes");
+*/
