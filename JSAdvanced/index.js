@@ -451,31 +451,32 @@ function randomDelay() {
   randomDelay()
   .then((delay) => console.log(`Successful delay: ${delay} ms.`))
   .catch((error) => console.error(error.message));
-*/
+
 
 //   Question 10:
 // run 'npm init' and accept all the defaults
 // run 'npm install node - fetch'
 // add this line to package.json after line 5: "type": "module",
 
-// import fetch from "node-fetch";
-// globalThis.fetch = fetch;
+import fetch from "node-fetch";
+globalThis.fetch = fetch;
 
-// function fetchURLData(url) {
-//   let fetchPromise = fetch(url).then((response) => {
-//     if (response.status === 200) {
-//       return response.json();
-//     } else {
-//       throw new Error(`Request failed with status ${response.status} `);
-//     }
-//   });
+function fetchURLData(url) {
+  let fetchPromise = fetch(url).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error(`Request failed with status ${response.status} `);
+    }
+  });
 
-//   return fetchPromise;
-// }
+  return fetchPromise;
+}
 
-// fetchURLData("https://jsonplaceholder.typicode.com/todos/1")
-//   .then((data) => console.log(data))
-//   .catch((error) => console.error(error.message));
+fetchURLData("https://jsonplaceholder.typicode.com/todos/1")
+// fetchURLData("https://example.com/nonexistent") // b)
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error.message));
 
 // a)
 import fetch from "node-fetch";
@@ -498,6 +499,7 @@ async function fetchURLData(url) {
 async function main() {
     try {
         const data = await fetchURLData("https://jsonplaceholder.typicode.com/todos/1");
+        // const data = await fetchURLData("https://example.com/nonexistent"); // b)
         console.log(data);
     } catch(error) {
         console.error(error.message);
@@ -505,3 +507,49 @@ async function main() {
 }
 
 main();
+ */
+// c)
+import fetch from "node-fetch";
+globalThis.fetch = fetch;
+
+async function fetchURLData(url) {
+  try {
+    const response = await fetch(url);
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+  } catch (error) {
+    throw new Error(`Failed to fetch data: ${error.message}`);
+  }
+}
+
+async function fetchMultipleURLs(urls) {
+  try {
+    const promises = urls.map((url) => fetchURLData(url)); // Create an array of promises
+    const results = await Promise.all(promises); // Use Promise.all to fetch all URLs concurrently
+    return results;
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch data from multiple URLs: ${error.message}`
+    );
+  }
+}
+
+async function main() {
+  try {
+    const urls = [
+      "https://jsonplaceholder.typicode.com/todos/1",
+      "https://jsonplaceholder.typicode.com/todos/2",
+    ];
+
+    const data = await fetchMultipleURLs(urls);
+    console.log("Data from multiple URLs:", data);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+main(); // Call the async main function to start the operation
