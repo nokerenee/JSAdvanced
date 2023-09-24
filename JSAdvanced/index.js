@@ -1,34 +1,60 @@
-/*
+
 // Question 1:
-function makeCounter(startFrom, incrementBy) {
-  // let currentCount = 0;
-  let currentCount = startFrom || 0;
-  incrementBy = incrementBy || 1;
+function makeCounter() {
+  let currentCount = 0;
 
   return function () {
-    // currentCount++;
+    currentCount++;
+    console.log(currentCount);
+    return currentCount;
+  };
+}
+
+let counter1 = makeCounter();
+let counter2 = makeCounter();
+
+counter1(); // 1
+counter1(); // 2
+
+counter2(); // 1
+counter2(); // 2
+
+function makeCounterB(startFrom = 0) {
+  let currentCount = startFrom;
+
+  return function () {
+    currentCount++;
+    console.log(currentCount);
+    return currentCount;
+  };
+}
+
+let counter3 = makeCounterB(4);
+counter3(); // 5
+counter3(); // 6
+
+function makeCounterC(startFrom = 0, incrementBy = 1) {
+  let currentCount = startFrom;
+  // incrementBy = incrementBy || 1;
+  // The || (logical OR) operator can be used for providing default values. If 'incrementBy' is not provided (i.e., it's 'undefined'), the || operator will return the value on its right side ('1' in this case), effectively setting 'incrementBy' to '1'.
+
+  return function () {
     currentCount += incrementBy;
     console.log(currentCount);
     return currentCount;
   };
 }
-let counter1 = makeCounter();
-counter1(); // 1
-counter1(); // 2
 
-let counter2 = makeCounter();
-counter2(); // 1
-counter2(); // 2
-
-let counter3 = makeCounter(4);
-counter3(); // 5
-counter3(); // 6
-
-let counter4 = makeCounter(10, 2);
+let counter4 = makeCounterC(10, 2);
 counter4(); // 12
 counter4(); // 14
 
+let counter5 = makeCounterC(10);
+counter5(); // 11
+counter5(); // 12
 
+
+/*
 // Question 2:
 // a)
 // Print order: #4 -> #3 -> #2 -> #1 
@@ -180,7 +206,7 @@ printNext();
 }
 
 printFibonacciTimeouts(10); // This will print the first 10 Fibonacci numbers 
-*/
+
 
 // Question 5:
 let car = {
@@ -221,7 +247,7 @@ setTimeout(() => {car.description();}, 200); // Doesn't work with updated year: 
 const boundDescription = car.description.bind(clonedCar);
 setTimeout(boundDescription, 400); // Now this will work with the updated year
 
-/*
+
 // Question 6:
 // a)
 Function.prototype.delay = function (ms) {
